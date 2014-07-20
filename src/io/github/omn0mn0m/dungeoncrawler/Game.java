@@ -54,7 +54,7 @@ public class Game {
     	Game.print("Player successfully loaded!");
     	Game.print("Swag out. \n");
     	
-    	locationMap.createRoomAtPlayer(0, random.nextInt(itemList.getTotalItems()));
+    	locationMap.generateRoomAtPlayer(0, random.nextInt(itemList.getTotalItems()));
 		locationMap.enterCurrentMapLocation(hero);
     }
 	

@@ -21,12 +21,12 @@ public class LocationMap {
 		locationMap = new Location[xLength][yLength];
 	}
 
-	public void createRoom(int x, int y, int hostiles, int items) {
+	public void generateRoom(int x, int y, int hostiles, int items) {
 		locationMap[x][y] = new Location(hostiles, items);
 	}
 	
-	public void createRoomAtPlayer(int hostiles, int items) {
-		createRoom(currentRoomX, currentRoomY, hostiles, items);
+	public void generateRoomAtPlayer(int hostiles, int items) {
+		generateRoom(currentRoomX, currentRoomY, hostiles, items);
 	}
 	
 	public void enterMapLocation(int x, int y, Entity entity) {
@@ -53,7 +53,7 @@ public class LocationMap {
 			if (moved) {
 				if (getCurrentLocation() == null) {
 					roomsCleared += 1;
-					createRoomAtPlayer(Game.random.nextInt(3), Game.random.nextInt(Game.itemList.getTotalItems()));
+					generateRoomAtPlayer(Game.random.nextInt(3), Game.random.nextInt(Game.itemList.getTotalItems()));
 				}
 				getCurrentLocation().enterLocation(entity);
 			} else {
@@ -79,7 +79,7 @@ public class LocationMap {
 	public void resetPlayerLocation(Entity entity) {
 		currentRoomX = 0;
 		currentRoomY = 0;
-		createRoomAtPlayer(0, Game.random.nextInt(Game.itemList.getTotalItems()));
+		generateRoomAtPlayer(0, Game.random.nextInt(Game.itemList.getTotalItems()));
 		enterCurrentMapLocation(entity);
 	}
 	
