@@ -17,11 +17,6 @@ public class Hero extends Entity {
 	private final int INVENTORY_SIZE = 9;
 	private final int EQUIPPED_SIZE = 2;
 	
-	// Random Class Stats
-	private final int RANDOM_HEALTH = 100;
-	private final int RANDOM_ATTACK = 15;
-	private final int RANDOM_DEFENSE = 15;
-	
 	private Inventory inventory = new Inventory(INVENTORY_SIZE);	// Player's inventory
 	private Inventory equipped = new Inventory(EQUIPPED_SIZE);		// Player's equip inventory
 	private final int WEAPON_SLOT = 0;
@@ -45,11 +40,11 @@ public class Hero extends Entity {
      * Runs a script to select the player class and change the stats accordingly.
      */
     public void selectClass() {
-        Game.print("You wake up inside a dungeon. Fight your way out.");
-        Game.print("Actually, first you should select a class... (Type the name)");
-        Game.print("| Warrior | Rogue | Mage | Healer |");
+        Game.print("You wake up in your comfortable bed, and as you sit up you see yourself in the mirror.");
+        Game.print("Who do you see staring back at you? (Type the name)");
+        Game.print("| Nam | Nick | Tori |");
         playerClass = input.splitAndGetInput(0);
-        Game.print("Okay, so you are a " + playerClass);
+        Game.print("Okay, so you are " + playerClass);
         
         Game.namReader.loadFile(classFilePath);
     	
@@ -65,12 +60,8 @@ public class Hero extends Entity {
     	Game.namReader.unloadFile();
     	
     	if (!Game.namReader.isFoundElement()) {
-    		Game.print("That's awkward... your class doesn't actually do anything... Do you still wish to proceed?");
-            if (input.splitAndGetInput(0).equals("yes")) {
-            	this.setStats(random.nextInt(RANDOM_HEALTH), random.nextInt(RANDOM_ATTACK), random.nextInt(RANDOM_DEFENSE));
-            } else {
-            	this.selectClass();
-            }
+    		Game.print("That may be someone, but not for this story... Try again!");
+            selectClass();
     	}
     }
 
