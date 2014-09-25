@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.dungeoncrawler.entity;
 
 import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.dungeoncrawler.Main;
 import io.github.omn0mn0m.dungeoncrawler.item.Inventory;
 import io.github.omn0mn0m.dungeoncrawler.item.Item;
 import io.github.omn0mn0m.dungeoncrawler.list.AttackList;
@@ -26,7 +27,7 @@ public class Hero extends Entity {
     private AttackList attackList = new AttackList();	// List of attacks the player can do
     
     private String playerClass;		// Class of the player
-	private String classFilePath = Game.rootPath + "Player Classes.nam";
+	private String classFilePath = Main.rootPath + "Player Classes.nam";
 
     /**
      * Constructor
@@ -46,20 +47,20 @@ public class Hero extends Entity {
         playerClass = input.splitAndGetInput(0);
         Game.print("Okay, so you are " + playerClass);
         
-        Game.namReader.loadFile(classFilePath);
+        Main.namReader.loadFile(classFilePath);
     	
-        Game.namReader.findData(String.valueOf(playerClass + "-Health"));
-    	health = Game.namReader.getIntData();
+        Main.namReader.findData(String.valueOf(playerClass + "-Health"));
+    	health =  Main.namReader.getIntData();
     	
-    	Game.namReader.findData(String.valueOf(playerClass + "-Attack"));
-    	attack = Game.namReader.getIntData();
+    	 Main.namReader.findData(String.valueOf(playerClass + "-Attack"));
+    	attack =  Main.namReader.getIntData();
     	
-    	Game.namReader.findData(String.valueOf(playerClass + "-Defense"));
-    	defense = Game.namReader.getIntData();
+    	 Main.namReader.findData(String.valueOf(playerClass + "-Defense"));
+    	defense =  Main.namReader.getIntData();
     	
-    	Game.namReader.unloadFile();
+    	 Main.namReader.unloadFile();
     	
-    	if (!Game.namReader.isFoundElement()) {
+    	if (! Main.namReader.isFoundElement()) {
     		Game.print("That may be someone, but not for this story... Try again!");
             selectClass();
     	}

@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.dungeoncrawler.list;
 
 import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.dungeoncrawler.Main;
 import io.github.omn0mn0m.dungeoncrawler.entity.Attack;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class AttackList {
 	private Attack[] values;	// List of attacks
 	private Map<String, Attack> attacksMap;	// Map of keys and which attack they correspond to
 	
-	private String fileName = Game.rootPath + "Attacks.nam";	// Name of the file for the list of attacks
+	private String fileName = Main.rootPath + "Attacks.nam";	// Name of the file for the list of attacks
 	
 	private int totalAttacks = 0;	// Total attacks in the game
 	
@@ -25,7 +26,7 @@ public class AttackList {
 	 * Constructor that loads up the list
 	 */
 	public AttackList() {
-		totalAttacks = Game.namReader.getTotal(fileName);
+		totalAttacks = Main.namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapAttacks();
@@ -45,12 +46,12 @@ public class AttackList {
 	 */
 	public void loadKeys() {
 		keys = new String[totalAttacks];
-		Game.namReader.loadFile(fileName);
+		Main.namReader.loadFile(fileName);
 		for (int i = 0; i < totalAttacks; i++) {
-			Game.namReader.findData(i + "-Key");
-			keys[i] = Game.namReader.getStringData().toLowerCase();
+			Main.namReader.findData(i + "-Key");
+			keys[i] = Main.namReader.getStringData().toLowerCase();
 		}
-		Game.namReader.unloadFile();
+		Main.namReader.unloadFile();
 	}
 	
 	/**
@@ -58,20 +59,20 @@ public class AttackList {
 	 */
 	public void loadValues() {
 		values = new Attack[totalAttacks];
-		Game.namReader.loadFile(fileName);
+		Main.namReader.loadFile(fileName);
 		for (int i = 0; i < totalAttacks; i++) {
-			Game.namReader.findData(String.valueOf(i + "-Name"));
-	    	String name = Game.namReader.getStringData();
+			Main.namReader.findData(String.valueOf(i + "-Name"));
+	    	String name = Main.namReader.getStringData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Requires"));
-	    	String requires = Game.namReader.getStringData();
+	    	Main.namReader.findData(String.valueOf(i + "-Requires"));
+	    	String requires = Main.namReader.getStringData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-AttackBuff"));
-	    	int attackBuff = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-AttackBuff"));
+	    	int attackBuff = Main.namReader.getIntData();
 	    	
 			values[i] = new Attack(name, requires, attackBuff);
 		}
-		Game.namReader.unloadFile();
+		Main.namReader.unloadFile();
 	}
 	
 	/**

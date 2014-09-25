@@ -1,6 +1,6 @@
 package io.github.omn0mn0m.dungeoncrawler.list;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.dungeoncrawler.Main;
 import io.github.omn0mn0m.dungeoncrawler.entity.Hostile;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class HostileList {
     private Hostile[] values;	// List of hostiles
     private Map<String, Hostile> hostileMap;	// Map of keys and which hostile they correspond to
     
-    private String fileName = Game.rootPath + "Hostile.nam";	// Name of the file for the list of hostiles
+    private String fileName = Main.rootPath + "Hostile.nam";	// Name of the file for the list of hostiles
     
     private int totalHostiles = 0;	// Total attacks in the game
     
@@ -25,7 +25,7 @@ public class HostileList {
 	 * Constructor that loads up the list
 	 */
 	public HostileList() {
-		totalHostiles = Game.namReader.getTotal(fileName);
+		totalHostiles = Main.namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapHostiles();
@@ -45,12 +45,12 @@ public class HostileList {
 	 */
 	public void loadKeys() {
 		keys = new String[totalHostiles];
-		Game.namReader.loadFile(fileName);
+		Main.namReader.loadFile(fileName);
 		for (int i = 0; i < totalHostiles; i++) {
-			Game.namReader.findData(i + "-Key");
-			keys[i] = Game.namReader.getStringData();
+			Main.namReader.findData(i + "-Key");
+			keys[i] = Main.namReader.getStringData();
 		}
-		Game.namReader.unloadFile();
+		Main.namReader.unloadFile();
 	}
 	
 	/**
@@ -58,22 +58,22 @@ public class HostileList {
 	 */
 	public void loadValues() {
 		values = new Hostile[totalHostiles];
-		Game.namReader.loadFile(fileName);
+		Main.namReader.loadFile(fileName);
 		for (int i = 0; i < totalHostiles; i++) {
-			Game.namReader.findData(String.valueOf(i + "-Name"));
-	    	String name = Game.namReader.getStringData();
+			Main.namReader.findData(String.valueOf(i + "-Name"));
+	    	String name = Main.namReader.getStringData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Health"));
-	    	int health = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-Health"));
+	    	int health = Main.namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Attack"));
-	    	int attack = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-Attack"));
+	    	int attack = Main.namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Defense"));
-	    	int defense = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-Defense"));
+	    	int defense = Main.namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-XP"));
-	    	int xp = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-XP"));
+	    	int xp = Main.namReader.getIntData();
 	    	
 			values[i] = new Hostile(name, health, defense, attack, xp);
 		}

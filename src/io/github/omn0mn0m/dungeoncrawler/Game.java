@@ -17,12 +17,6 @@ public class Game {
 
     private final int ROOMS_TO_WIN = 10;
 	
-    public static final NamReader namReader = new NamReader();
-	public static String rootPath;
-	public static String helpFilename;
-	public static File HELP_FILE;
-	private Scanner fileScanner;
-	
 	public static HostileList hostileList;
     public static ItemList itemList;
     
@@ -35,16 +29,6 @@ public class Game {
     
     
     public Game() {
-    	rootPath = (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) ? "resources/" 
-    			: "storage/emulated/0/AppProjects/Tortilla/resources/";
-    	
-    	HELP_FILE = new File(rootPath + "help_file.txt");
-    	try {
-			fileScanner = new Scanner(HELP_FILE);
-		} catch (FileNotFoundException e) {
-			Game.print("A file is missing...");
-		}
-    	
     	hostileList = new HostileList();
     	Game.print("Hostiles list successfully loaded!");
     	itemList = new ItemList();
@@ -242,8 +226,8 @@ public class Game {
     
     public void printHelp() {
     	if(input.getSplitLength() == 1) {
-			while(fileScanner.hasNextLine()) {
-				String fileStr = fileScanner.useDelimiter("[\\r\\n]+").next();
+			while(Main.fileScanner.hasNextLine()) {
+				String fileStr = Main.fileScanner.useDelimiter("[\\r\\n]+").next();
 				Game.print(fileStr);
 			}
     	} else {

@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.dungeoncrawler.list;
 
 import io.github.omn0mn0m.dungeoncrawler.Game;
+import io.github.omn0mn0m.dungeoncrawler.Main;
 import io.github.omn0mn0m.dungeoncrawler.item.Item;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class ItemList {
     private Item[] values;	// List of items
     private Map<String, Item> itemsMap;	// Map of keys and which item they correspond to
     
-    private String fileName = Game.rootPath + "Items.nam";	// Name of the file for the list of items
+    private String fileName = Main.rootPath + "Items.nam";	// Name of the file for the list of items
     
     private int totalItems = 0;		// Total items in the game
     
@@ -25,7 +26,7 @@ public class ItemList {
 	 * Constructor that loads up the list
 	 */
 	public ItemList() {
-		totalItems = Game.namReader.getTotal(fileName);
+		totalItems = Main.namReader.getTotal(fileName);
 		this.loadKeys();
 		this.loadValues();
 		this.mapItems();
@@ -45,12 +46,12 @@ public class ItemList {
 	 */
 	public void loadKeys() {
 		keys = new String[totalItems];
-		Game.namReader.loadFile(fileName);
+		Main.namReader.loadFile(fileName);
 		for (int i = 0; i < totalItems; i++) {
-			Game.namReader.findData(i + "-Key");
-			keys[i] = Game.namReader.getStringData().toLowerCase();
+			Main.namReader.findData(i + "-Key");
+			keys[i] = Main.namReader.getStringData().toLowerCase();
 		}
-		Game.namReader.unloadFile();
+		Main.namReader.unloadFile();
 	}
 	
 	/**
@@ -58,26 +59,26 @@ public class ItemList {
 	 */
 	public void loadValues() {
 		values = new Item[totalItems];
-		Game.namReader.loadFile(fileName);
+		Main.namReader.loadFile(fileName);
 		for (int i = 0; i < totalItems; i++) {
-			Game.namReader.findData(String.valueOf(i + "-Name"));
-	    	String name = Game.namReader.getStringData();
+			Main.namReader.findData(String.valueOf(i + "-Name"));
+	    	String name = Main.namReader.getStringData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-Type"));
-	    	String type = Game.namReader.getStringData().toLowerCase();
+	    	Main.namReader.findData(String.valueOf(i + "-Type"));
+	    	String type = Main.namReader.getStringData().toLowerCase();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-AttackBuff"));
-	    	int attackBuff = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-AttackBuff"));
+	    	int attackBuff = Main.namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-DefenseBuff"));
-	    	int defenseBuff = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-DefenseBuff"));
+	    	int defenseBuff = Main.namReader.getIntData();
 	    	
-	    	Game.namReader.findData(String.valueOf(i + "-HealthBuff"));
-	    	int healthBuff = Game.namReader.getIntData();
+	    	Main.namReader.findData(String.valueOf(i + "-HealthBuff"));
+	    	int healthBuff = Main.namReader.getIntData();
 	    	
 			values[i] = new Item(name, type, attackBuff, defenseBuff, healthBuff);
 		}
-		Game.namReader.unloadFile();
+		Main.namReader.unloadFile();
 	}
 	
 	/**

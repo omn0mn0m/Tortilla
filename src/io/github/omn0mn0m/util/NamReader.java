@@ -1,7 +1,5 @@
 package io.github.omn0mn0m.util;
 
-import io.github.omn0mn0m.dungeoncrawler.Game;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -44,10 +42,10 @@ public class NamReader {
 	public void loadFile(String filepath) {
 		this.setFilepath(filepath);
 		try {
-			file = new File(filepath);
+			file = new File(this.filepath);
 			scanner = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			Game.print("A file is missing...");
+			System.out.println("A file is missing...");
 		}
 	}
 	
@@ -57,10 +55,10 @@ public class NamReader {
 	 * @return Total
 	 */
 	public int getTotal(String fileName) {
-		Game.namReader.loadFile(fileName);
-		Game.namReader.findData("Total");
-		int total = Game.namReader.getIntData();
-		Game.namReader.unloadFile();
+		loadFile(fileName);
+		findData("Total");
+		int total = getIntData();
+		unloadFile();
 		return total;
 	}
 	
