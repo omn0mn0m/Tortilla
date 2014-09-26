@@ -17,14 +17,19 @@ public class Hero extends Entity {
 	private final int INVENTORY_SIZE = 9;
 	private final int EQUIPPED_SIZE = 2;
 	
+	// Random Class Stats
+	private final int RANDOM_HEALTH = 100;
+	private final int RANDOM_ATTACK = 15;
+	private final int RANDOM_DEFENSE = 15;
+	
 	private Inventory inventory = new Inventory(INVENTORY_SIZE);	// Player's inventory
 	private Inventory equipped = new Inventory(EQUIPPED_SIZE);		// Player's equip inventory
 	private final int WEAPON_SLOT = 0;
 	private final int ARMOUR_SLOT = 1;
     
 	private Input input = new Input();	// Player's input
-    private String playerName;		// Class of the player
-	
+    private String playerName;		// Name of the player
+	private String playerClass;		// Class of the player
 
     /**
      * Constructor
@@ -38,13 +43,13 @@ public class Hero extends Entity {
      * Runs a script to select the player class and change the stats accordingly.
      */
     public void selectName() {
-        Dream.print("You wake up in your comfortable bed, and as you sit up you see yourself in the mirror.");
-        Dream.print("Who do you see staring back at you? (Type the name)");
-        Dream.print("| Nam | Nick | Tori |");
-        playerName = input.splitAndGetInput(0);
-        Dream.print("Okay, so you are " + playerName);
+        Main.print("You wake up in your comfortable bed, and as you sit up you see yourself in the mirror.");
+        Main.print("Who do you see staring back at you? (Type the name)");
+        Main.print("| Nam | Nick | Tori |");
+        playerName = input.getSimpleInput(false);
+        Main.print("Okay, so you are " + playerName);
         
-        String classFilePath = Main.rootPath + "Player Name.nam";
+        String classFilePath = Main.rootPath + "Player Names.nam";
         Main.namReader.loadFile(classFilePath);
     	
         Main.namReader.findData(String.valueOf(playerName + "-Health"));
@@ -59,8 +64,42 @@ public class Hero extends Entity {
     	 Main.namReader.unloadFile();
     	
     	if (! Main.namReader.isFoundElement()) {
-    		Dream.print("That may be someone, but not for this story... Try again!");
+    		Main.print("That may be someone, but not for this story... Try again!");
             selectName();
+    	}
+    }
+    
+    /**
+     * Runs a script to select the player class and change the stats accordingly.
+     */
+    public void selectClass() {
+        Main.print("You wake up inside a dungeon. Fight your way out.");
+        Main.print("Actually, first you should select a class... (Type the name)");
+        Main.print("| Warrior | Rogue | Mage | Healer |");
+        playerClass = input.splitAndGetInput(0);
+        Main.print("Okay, so you are a " + playerClass);
+        
+        String classFilePath = Main.rootPath + "Player Classes.nam";
+        Main.namReader.loadFile(classFilePath);
+    	
+        Main.namReader.findData(String.valueOf(playerClass + "-Health"));
+    	health = Main.namReader.getIntData();
+    	
+    	Main.namReader.findData(String.valueOf(playerClass + "-Attack"));
+    	attack = Main.namReader.getIntData();
+    	
+    	Main.namReader.findData(String.valueOf(playerClass + "-Defense"));
+    	defense = Main.namReader.getIntData();
+    	
+    	Main.namReader.unloadFile();
+    	
+    	if (!Main.namReader.isFoundElement()) {
+    		Main.print("That's awkward... your class doesn't actually do anything... Do you still wish to proceed?");
+            if (input.splitAndGetInput(0).equals("yes")) {
+            	this.setStats(random.nextInt(RANDOM_HEALTH), random.nextInt(RANDOM_ATTACK), random.nextInt(RANDOM_DEFENSE));
+            } else {
+            	this.selectClass();
+            }
     	}
     }
 
@@ -70,7 +109,7 @@ public class Hero extends Entity {
     public void checkIfAlive() {
     	this.checkHealth();
         if (!alive) {
-        	Dream.print("You have died.");
+        	Main.print("You have died.");
             System.exit(0);
         }
     }
@@ -81,21 +120,21 @@ public class Hero extends Entity {
      */
     public void attack(Hostile hostile) {
         if (hostile == null) {
-        	Dream.print("You can't attack what's not there...");
+        	Main.print("You can't attack what's not there...");
         } else {
         	int attackBuff = 0;
-            Dream.print("Which attack should you use?");
+            Main.print("Which attack should you use?");
             String attackType = input.getSimpleInput();
             
             if (Dream.attackList.getAttack(attackType) != null) {
             	if (equipped.checkSlot(WEAPON_SLOT) != null && Dream.attackList.getAttack(attackType).getAttackRequires().equalsIgnoreCase(equipped.checkSlot(WEAPON_SLOT).getName())) {
             		attackBuff = Dream.attackList.getAttack(attackType).getAttackBuff();
             	} else {
-            		Dream.print("You attack, but a lack of items makes it not as effective...");
+            		Main.print("You attack, but a lack of items makes it not as effective...");
             	}
             }
             
-        	Dream.print("You " + attackType + " the " + hostile.getName() + ".");
+        	Main.print("You " + attackType + " the " + hostile.getName() + ".");
             hostile.takeDamage(this, attackBuff);
         }
     }
@@ -104,11 +143,11 @@ public class Hero extends Entity {
      * Runs the script to reroll the character's class and stats.
      */
     public void rerollCharacter() {
-    	Dream.print("Are you sure you wish to reroll your character? This will knock you unconscious...");
+    	Main.print("Are you sure you wish to reroll your character? This will knock you unconscious...");
         if (input.getSimpleInput().equalsIgnoreCase("yes")) {
             this.selectName();
         } else {
-        	Dream.print("You have cancelled your rerolling.");
+        	Main.print("You have cancelled your rerolling.");
         }
     }
     
@@ -133,7 +172,7 @@ public class Hero extends Entity {
      */
     public void removeSlot(int slot) {
     	inventory.removeSlot(slot);
-    	Dream.print("Slot " + slot + " has been emptied.");
+    	Main.print("Slot " + slot + " has been emptied.");
     }
     
     /**
@@ -147,12 +186,12 @@ public class Hero extends Entity {
 	    	if (inventory.hasItem(targetItem.getName())) {
 	    		inventory.removeItem(targetItem);
 	    		donationInventory.addItem(targetItem);
-	    		Dream.print("The " + item + " has been removed.");
+	    		Main.print("The " + item + " has been removed.");
 	    	} else {
-	    		Dream.print("That item can't be removed!");
+	    		Main.print("That item can't be removed!");
 	    	}
     	} catch (NullPointerException e) {
-    		Dream.print("That item doesn't exist!");
+    		Main.print("That item doesn't exist!");
     	}
     }
     
@@ -167,12 +206,12 @@ public class Hero extends Entity {
 	    	if (donorInventory.hasItem(targetItem.getName())) {
 	    		inventory.addItem(targetItem);
 	    		donorInventory.removeItem(targetItem);
-	    		Dream.print("The " + item + " has been added.");
+	    		Main.print("The " + item + " has been added.");
 	    	} else {
-	    		Dream.print("That item can't be added!");
+	    		Main.print("That item can't be added!");
 	    	}
     	} catch (NullPointerException e) {
-    		Dream.print("That item doesn't exist!");
+    		Main.print("That item doesn't exist!");
     	}
     }
     
@@ -212,13 +251,13 @@ public class Hero extends Entity {
 					this.defense += targetItem.getStatBuff("defense");
 					this.health += targetItem.getStatBuff("health");
 					
-					Dream.print(name + " has equipped a " + targetItem.getName() + ".");
+					Main.print(name + " has equipped a " + targetItem.getName() + ".");
 				} else {
-					Dream.print("You can't equip that!");
+					Main.print("You can't equip that!");
 				}
 	    	}
     	} catch (NullPointerException e) {
-    		Dream.print("That item doesn't exist!");
+    		Main.print("That item doesn't exist!");
     	}
     }
     
@@ -232,7 +271,7 @@ public class Hero extends Entity {
 	    	} else if (targetItem.getType().equals("armour")) {
 	    		targetSlot = ARMOUR_SLOT;
 	    	} else {
-	    		Dream.print("You cannot unequip that!");
+	    		Main.print("You cannot unequip that!");
 	    	}
 	    	
 	    	if (targetSlot != -1) {
@@ -244,13 +283,13 @@ public class Hero extends Entity {
 					
 					equipped.removeItem(targetItem);
 					inventory.addItem(targetItem);
-					Dream.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
+					Main.print("The " + targetItem.getName() + " has been unequipped and moved to your inventory.");
 				} else {
-					Dream.print("That slot is already empty!");
+					Main.print("That slot is already empty!");
 				}
 	    	}
     	} catch (NullPointerException e) {
-    		Dream.print("That item doesn't exist!");
+    		Main.print("That item doesn't exist!");
     	}
     }
     
@@ -265,12 +304,12 @@ public class Hero extends Entity {
 				this.health += targetItem.getStatBuff("health");
 	    		
 	    		inventory.removeItem(targetItem);
-	    		Dream.print("The " + item + " has been consumed.");
+	    		Main.print("The " + item + " has been consumed.");
 	    	} else {
-	    		Dream.print("That item can't be consumed!");
+	    		Main.print("That item can't be consumed!");
 	    	}
     	} catch (NullPointerException e) {
-    		Dream.print("That item doesn't exist!");
+    		Main.print("That item doesn't exist!");
     	}
     }
     

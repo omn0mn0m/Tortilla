@@ -1,6 +1,6 @@
 package io.github.omn0mn0m.tortilla.item;
 
-import io.github.omn0mn0m.tortilla.Dream;
+import io.github.omn0mn0m.tortilla.Main;
 
 /**
  * This is the basic inventory for items. It has all the methods needed for basic
@@ -28,15 +28,15 @@ public class Inventory {
 		if (showEmpty) {
 	    	for (int i = 0; i < inventory.length; i++) {
 	    		if (!this.slotEmpty(i)) {
-	    			Dream.print(i + ". " + inventory[i].getName());
+	    			Main.print(i + ". " + inventory[i].getName());
 	    		} else {
-	    			Dream.print(i + ". Empty Slot");
+	    			Main.print(i + ". Empty Slot");
 	    		}
 	    	}
 		} else {
 			for (int i = 0; i < inventory.length; i++) {
 	    		if (!this.slotEmpty(i)) {
-	    			Dream.print("- " + inventory[i].getName());
+	    			Main.print("- " + inventory[i].getName());
 	    		}
 	    	}
 		}

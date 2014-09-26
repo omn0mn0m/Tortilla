@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.tortilla.location;
 
 import io.github.omn0mn0m.tortilla.Dream;
+import io.github.omn0mn0m.tortilla.Main;
 import io.github.omn0mn0m.tortilla.entity.Entity;
 import io.github.omn0mn0m.tortilla.entity.Hostile;
 import io.github.omn0mn0m.tortilla.item.Inventory;
@@ -57,10 +58,10 @@ public class LocationMap {
 				}
 				getCurrentLocation().enterLocation(entity);
 			} else {
-				Dream.print("You cannot move further in that direction...");
+				Main.print("You cannot move further in that direction...");
 			}
 		} else {
-			Dream.print("You try to run, but are stopped!");
+			Main.print("You try to run, but are stopped!");
 		}
 	}
 	

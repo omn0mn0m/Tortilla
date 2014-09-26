@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.tortilla.entity;
 
 import io.github.omn0mn0m.tortilla.Dream;
+import io.github.omn0mn0m.tortilla.Main;
 import io.github.omn0mn0m.tortilla.item.Inventory;
 import io.github.omn0mn0m.tortilla.item.Item;
 
@@ -15,7 +16,7 @@ public class Trader extends Entity {
 		this.name = name;
 		fillInventory();
 		 
-		Dream.print("Hey there! I'm " + this.name + ". You can trade with me.");
+		Main.print("Hey there! I'm " + this.name + ". You can trade with me.");
 	}
 	
 	public void checkInventory() {
@@ -27,7 +28,7 @@ public class Trader extends Entity {
 			hero.removeItem(inventory, playerItem);
 			hero.addItem(inventory, traderItem);
 		} else {
-			Dream.print("Something was missing in the transaction!");
+			Main.print("Something was missing in the transaction!");
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package io.github.omn0mn0m.tortilla.location;
 
 import io.github.omn0mn0m.tortilla.Dream;
+import io.github.omn0mn0m.tortilla.Main;
 import io.github.omn0mn0m.tortilla.entity.Entity;
 import io.github.omn0mn0m.tortilla.entity.Hostile;
 import io.github.omn0mn0m.tortilla.item.Inventory;
@@ -41,7 +42,7 @@ public class Location {
     		this.generateItem();
     		generated = true;
     	} else {}
-		Dream.print(entity.getName() + " walks into the room.");
+		Main.print(entity.getName() + " walks into the room.");
     }
     
     /**
@@ -92,7 +93,7 @@ public class Location {
      * Prints a list of items in the location.
      */
     public void printItems() {
-    	Dream.print("Items:");
+    	Main.print("Items:");
     	locationItems.checkInventory(false);
     }
     
@@ -100,10 +101,10 @@ public class Location {
      * Prints a list of hostiles in the location.
      */
     public void printHostiles() {
-    	Dream.print("Hostiles:");
+    	Main.print("Hostiles:");
     	for (int i = 0; i < hostiles.length; i++) {
     		if (hostiles[i] != null) {
-    			Dream.print("- " + hostiles[i].getName());
+    			Main.print("- " + hostiles[i].getName());
     		}
     	}
     }

@@ -1,7 +1,5 @@
 package io.github.omn0mn0m.util;
 
-import io.github.omn0mn0m.tortilla.Dream;
-
 import java.util.Scanner;
 
 /**
@@ -29,6 +27,19 @@ public class Input {
 	public String getSimpleInput() {
     	return input.nextLine().toLowerCase();
     }
+	
+	/**
+	 * Returns whatever is inputed into the computer, regardless of what it says
+	 * or how many words are used. It automatically lower-cases the string.
+	 * @return input
+	 */
+	public String getSimpleInput(boolean lowercase) {
+		if (lowercase) {
+			return input.nextLine().toLowerCase();
+		} else {
+			return input.nextLine();
+		}
+    }
 
 	/**
 	 * Sets an array of strings to each word in an input.
@@ -48,7 +59,7 @@ public class Input {
 		if (wordNumber < splitInput.length) {
 			return splitInput[wordNumber];
 		} else {
-			Dream.print("There is a word missing in the input...");
+			System.out.println("There is a word missing in the input...");
 		}
 		
 		return str;

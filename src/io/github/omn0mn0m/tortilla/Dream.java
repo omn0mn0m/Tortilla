@@ -20,6 +20,7 @@ public class Dream {
     
 	private Input input = new Input();
 	private boolean paused = false;
+	private boolean isDreaming = true;
 	
     private Hero hero;
     private LocationMap locationMap = new LocationMap(ROOMS_TO_WIN + 1, ROOMS_TO_WIN + 1);
@@ -28,14 +29,14 @@ public class Dream {
     
     public Dream() {
     	hostileList = new HostileList();
-    	Dream.print("Hostiles list successfully loaded!");
+    	Main.print("Hostiles list successfully loaded!");
     	itemList = new ItemList();
-    	Dream.print("Items list successfully loaded!");
+    	Main.print("Items list successfully loaded!");
         attackList = new AttackList();	// List of attacks the player can do
-    	Dream.print("Attacks list successfully loaded!");
+    	Main.print("Attacks list successfully loaded!");
     	hero = new Hero();
-    	Dream.print("Player successfully loaded!");
-    	Dream.print("Swag out. \n");
+    	Main.print("Player successfully loaded!");
+    	Main.print("Swag out. \n");
     	
     	locationMap.generateRoomAtPlayer(0, random.nextInt(itemList.getTotalItems()));
 		locationMap.enterCurrentMapLocation(hero);
@@ -64,7 +65,7 @@ public class Dream {
 								locationMap.moveTo(0, -1, hero);
 								break;
 							default:
-								print("You can't go that way...");
+								Main.print("You can't go that way...");
 								break;
 		            	}
 		                break;
@@ -73,7 +74,7 @@ public class Dream {
 		            		if (locationMap.getCurrentLocation() != null) {
 		            			locationMap.printAllCurrentLocationInformation();
 		            		} else {
-		            			Dream.print("There is nothing to see...");
+		            			Main.print("There is nothing to see...");
 		            		}
 		            	} else if (input.isSplitWordTarget(1, "at")) {
 							locationMap.printTargetHostileStats(input.getInputWord(2));
@@ -83,7 +84,7 @@ public class Dream {
 		            	if (input.getSplitLength() >= 2) {
 		            		hero.attack(locationMap.getHostileAtCurrentLocation(input.getInputWord(1)));
 		            	} else {
-		            		Dream.print("You did not choose anything to attack...");
+		            		Main.print("You did not choose anything to attack...");
 		            	}
 		                break;
 		            case "quit":
@@ -107,7 +108,7 @@ public class Dream {
 		            			hero.checkEquipped();
 		            			break;
 		            		default:
-		            			print("That is not something valid to check...");
+		            			Main.print("That is not something valid to check...");
 		            			break;
 		            	}
 		            	break;
@@ -136,7 +137,7 @@ public class Dream {
 		            	printHelp();
 		            	break;
 		            default:
-		                print("That is not a valid command");
+		                Main.print("That is not a valid command");
 		                break;
 		        }
 	    	} else {
@@ -160,7 +161,7 @@ public class Dream {
 		            	printHelp();
 		            	break;
 		            default:
-		                print("That is not a valid command");
+		                Main.print("That is not a valid command");
 		                break;
 		        }
 	    	}
@@ -181,27 +182,29 @@ public class Dream {
     }
     
     public void heroClassSelect() {
-    	hero.selectName();
+    	hero.selectClass();
     }
     
     public void checkForWin() {
     	if (locationMap.getRoomsCleared() == ROOMS_TO_WIN) {
-    		print("You walk through into the next room, but there is no more dungeon. You have reached the end. Congradulations!");
-            System.exit(0);
+    		Main.print("You walk through into the next room, but there is no more dungeon. You have reached the end. Congradulations!");
+    		isDreaming = false;
+    		locationMap.resetMap();
+            locationMap.resetPlayerLocation(hero);
     	}
     }
     
     public void quit() {
-    	print("Are you sure you want to quit? ");
+    	Main.print("Are you sure you want to quit? ");
         if(input.getSimpleInput().equalsIgnoreCase("yes")) {
-            System.exit(0);
+            isDreaming = false;
         } else {
-        	print("Resuming game then...");
+        	Main.print("Resuming game then...");
         }
     }
     
     public void restart() {
-    	print("Are you sure you want to restart?");
+    	Main.print("Are you sure you want to restart?");
         if(input.getSimpleInput().equalsIgnoreCase("Yes")) {
             locationMap.resetMap();
             locationMap.resetPlayerLocation(hero);
@@ -211,12 +214,12 @@ public class Dream {
     
     public void pause() {
     	paused = true;
-    	print("The game is now paused.");
+    	Main.print("The game is now paused.");
     }
     
     public void unpause() {
     	paused = false;
-    	print("The game is resuming.");
+    	Main.print("The game is resuming.");
     }
     
     public boolean isPaused() {
@@ -227,79 +230,79 @@ public class Dream {
     	if(input.getSplitLength() == 1) {
 			while(Main.fileScanner.hasNextLine()) {
 				String fileStr = Main.fileScanner.useDelimiter("[\\r\\n]+").next();
-				Dream.print(fileStr);
+				Main.print(fileStr);
 			}
     	} else {
     		switch(input.getInputWord(1)) {
     			case "go":
-    				Dream.print("Syntax: go <direction>");
-    				Dream.print("You may go north, south, east, or west.");
-    				Dream.print("You are not imaginative enough to even think of going other directions.");
+    				Main.print("Syntax: go <direction>");
+    				Main.print("You may go north, south, east, or west.");
+    				Main.print("You are not imaginative enough to even think of going other directions.");
     				break;
     			case "look":
-    				Dream.print("Syntax: look <arguments> <object>");
-    				Dream.print("You can look around anywhere, but you can only look at objects.");
+    				Main.print("Syntax: look <arguments> <object>");
+    				Main.print("You can look around anywhere, but you can only look at objects.");
     				break;
     			case "attack":
-    				Dream.print("Syntax: attack <enemy>");
-    				Dream.print("Just be sure you're attacking what is actually there!");
+    				Main.print("Syntax: attack <enemy>");
+    				Main.print("Just be sure you're attacking what is actually there!");
     				break;
     			case "quit":
-    				Dream.print("Syntax: quit");
-    				Dream.print("Quits the game and shouts ''I'm a quitter'' to the cosmos.");
+    				Main.print("Syntax: quit");
+    				Main.print("Quits the game and shouts ''I'm a quitter'' to the cosmos.");
     				break;
     			case "restart":
-    				Dream.print("Syntax: restart");
-    				Dream.print("Restarts the game. In case it wasn't already clear, this wipes your progress.");
+    				Main.print("Syntax: restart");
+    				Main.print("Restarts the game. In case it wasn't already clear, this wipes your progress.");
     				break;
     			case "reroll":
-    				Dream.print("Syntax: reroll");
-    				Dream.print("Resets your character's stats, so you can change them.");
+    				Main.print("Syntax: reroll");
+    				Main.print("Resets your character's stats, so you can change them.");
     				break;
     			case "check":
-    				Dream.print("Syntax: check <vitals>");
-    				Dream.print("You can check your stats, inventory, and equipped.");
-    				Dream.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
+    				Main.print("Syntax: check <vitals>");
+    				Main.print("You can check your stats, inventory, and equipped.");
+    				Main.print("You tried checking some other stuff a while ago, but you found it too difficult and gave up.");
     				break;
     			case "drop":
-    				Dream.print("Syntax: drop <item>");
-    				Dream.print("Drops the item that you specify. Be careful what you do with basses.");
+    				Main.print("Syntax: drop <item>");
+    				Main.print("Drops the item that you specify. Be careful what you do with basses.");
     				break;
     			case "take":
-    				Dream.print("Syntax: take <item>");
-    				Dream.print("Takes an item from the surroundings and places it in your inventory.");
+    				Main.print("Syntax: take <item>");
+    				Main.print("Takes an item from the surroundings and places it in your inventory.");
     				break;
     			case "equip":
-    				Dream.print("Syntax: equip <item>");
-    				Dream.print("Equips the item you specify. Just be sure you actually have the item...");
+    				Main.print("Syntax: equip <item>");
+    				Main.print("Equips the item you specify. Just be sure you actually have the item...");
     				break;
     			case "unequip":
-    				Dream.print("Syntax: unequip <item>");
-    				Dream.print("Removes the item from your equipment and places it in your inventory.");
+    				Main.print("Syntax: unequip <item>");
+    				Main.print("Removes the item from your equipment and places it in your inventory.");
     				break;
     			case "consume":
-    				Dream.print("Syntax: consume <item>");
-    				Dream.print("Consumes an item from your inventory and removes it from your inventory.");
+    				Main.print("Syntax: consume <item>");
+    				Main.print("Consumes an item from your inventory and removes it from your inventory.");
     				break;
     			case "pause":
-    				Dream.print("Syntax: pause");
-    				Dream.print("Pauses the game, like stopping the world, only possible");
+    				Main.print("Syntax: pause");
+    				Main.print("Pauses the game, like stopping the world, only possible");
     				break;
     			case "unpause":
-    				Dream.print("Syntax: unpause");
-    				Dream.print("Unpauses the game, like unstopping the world but...");
-    				Dream.print("You know, now that I think about it, this is a really bad analogy");
+    				Main.print("Syntax: unpause");
+    				Main.print("Unpauses the game, like unstopping the world but...");
+    				Main.print("You know, now that I think about it, this is a really bad analogy");
     				break;
     			case "help":
-    				Dream.print("Syntax: help <command>");
-    				Dream.print("You ask for help, recieving a list of commands if you do not specify one.");
-    				Dream.print("Or you ask for help about a specific command, getting the syntax and purpose of it");
+    				Main.print("Syntax: help <command>");
+    				Main.print("You ask for help, recieving a list of commands if you do not specify one.");
+    				Main.print("Or you ask for help about a specific command, getting the syntax and purpose of it");
     				break;
     		}
     	}
     }
     
-    public static void print(String string) {
-    	System.out.println(string);
+    public boolean isDreaming() {
+    	return isDreaming;
     }
 }

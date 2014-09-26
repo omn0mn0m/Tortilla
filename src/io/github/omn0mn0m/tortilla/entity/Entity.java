@@ -1,6 +1,6 @@
 package io.github.omn0mn0m.tortilla.entity;
 
-import io.github.omn0mn0m.tortilla.Dream;
+import io.github.omn0mn0m.tortilla.Main;
 
 import java.util.Random;
 
@@ -109,12 +109,12 @@ public abstract class Entity {
      * Prints the stats of an entity.
      */
     public void printStats() {
-    	Dream.print("Name: " + name);
-    	Dream.print("Health: " + health);
-    	Dream.print("Attack: " + attack);
-    	Dream.print("Defense: " + defense);
-    	Dream.print("XP: " + xp);
-    	Dream.print("Level: " + level);
+    	Main.print("Name: " + name);
+    	Main.print("Health: " + health);
+    	Main.print("Attack: " + attack);
+    	Main.print("Defense: " + defense);
+    	Main.print("XP: " + xp);
+    	Main.print("Level: " + level);
     }
     
     /**
@@ -126,9 +126,9 @@ public abstract class Entity {
         int attackDamage = (attacker.getStat("attack") + attackBuff) - this.defense;
         if (attackDamage > 0) {
             this.health -= attackDamage;
-            Dream.print(attacker.getName() + " deals " + attackDamage + " to " + this.name + ".");
+            Main.print(attacker.getName() + " deals " + attackDamage + " to " + this.name + ".");
         } else {
-        	Dream.print(this.name + " gets attacked by " + attacker.getName() + ", but it does no damage.");
+        	Main.print(this.name + " gets attacked by " + attacker.getName() + ", but it does no damage.");
         }
     }
     
@@ -186,7 +186,7 @@ public abstract class Entity {
     		defense += level;
     		health += level;
     		
-    		Dream.print(name + " has gained a level!");
+    		Main.print(name + " has gained a level!");
     		neededXp = 25 * level;
     	}
     }
@@ -234,5 +234,9 @@ public abstract class Entity {
     public void setStats(String name, String description, int health, int attack, int defense) {
     	this.description = description;
     	setStats(name, health, attack, defense);
+    }
+    
+    public void say(String message) {
+    	Main.print(name + ": " + message);
     }
 }

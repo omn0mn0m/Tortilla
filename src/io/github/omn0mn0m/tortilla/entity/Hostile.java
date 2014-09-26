@@ -1,6 +1,6 @@
 package io.github.omn0mn0m.tortilla.entity;
 
-import io.github.omn0mn0m.tortilla.Dream;
+import io.github.omn0mn0m.tortilla.Main;
 
 /**
  * This is the class for the basic hostile. It has a name, health, defense, and attack.
@@ -38,7 +38,7 @@ public class Hostile extends Entity {
     public void checkIfAlive(Hero hero) {
     	this.checkHealth();
         if (!alive) {
-            Dream.print(hero.getName() + " killed a " + name);
+            Main.print(hero.getName() + " killed a " + name);
         }
     }
     

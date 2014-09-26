@@ -35,8 +35,8 @@ public class NamReader {
 	}
 	
 	/**
-	 * Loads a file from a specified filepath for the NamReader to use.
-	 * It returns a missing file message if the filepath is not correct.
+	 * Loads a file from a specified file path for the NamReader to use.
+	 * It returns a missing file message if the file path is not correct.
 	 * @param filepath
 	 */
 	public void loadFile(String filepath) {
@@ -95,7 +95,7 @@ public class NamReader {
 	
 	/**
 	 * Returns the data as an integer.
-	 * @return Int data
+	 * @return Integer data
 	 */
 	public int getIntData() {
 		int getData = 0;
@@ -126,15 +126,15 @@ public class NamReader {
 	}
 
 	/**
-	 * Returns the current filepath.
-	 * @return Current filepath
+	 * Returns the current file path.
+	 * @return Current file path
 	 */
 	public String getFilepath() {
 		return filepath;
 	}
 
 	/**
-	 * Sets the current filepath.
+	 * Sets the current file path.
 	 * @param filepath
 	 */
 	public void setFilepath(String filepath) {
