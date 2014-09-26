@@ -55,7 +55,7 @@ public class ToriStory extends Story {
 		Main.characters.nam.say("WE NEED TO BAKE HAPPINESS AND RANDOMLY DANCE AND STUFF");
 		Main.print("How do you respond? Yes you were the one to respond first, let's see if you remember what you said :P");
 		String firstFBMessage = input.getSimpleInput();
-		Main.print(firstFBMessage);
+		Main.characters.tori.say(firstFBMessage);
 		if (firstFBMessage.equalsIgnoreCase("YES WE DO")) {
 			Main.print("Wow I didn't think you would remember...");
 		} else {
